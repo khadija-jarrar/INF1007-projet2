@@ -1,0 +1,10 @@
+# Journal d'utilisation de l'IA
+
+| Outil | Ce que j'ai demandé | Réponse reçue | Vérification faite | Décision |
+|---|---|---|---|---|
+| Claude | Aide pour structurer la partie « modèle » : classes, exceptions, tests pytest, entraînement avec scikit-learn. | Code de `modele.py`, `exceptions.py` et `test_modele.py`, écrit avec des données inventées. | Lancé `pytest` : 11 tests passés. Relu le code pour pouvoir l'expliquer. | Gardé. Adapté ensuite aux vraies colonnes du CSV. |
+| Claude | Corriger l'avertissement de pandas 3 sur `select_dtypes(include=["object", ...])`. | Remplacer le test sur le type « object » par `pd.api.types.is_numeric_dtype`. | Relancé `pytest -q` : plus aucun avertissement. | Gardé. |
+| Claude | Quelles colonnes du CSV utiliser comme caractéristiques. | Exclure « NOMBRE DE RECHARGE », « Temps de connexion », « Taux d'utilisation », etc., car elles sont calculées avec la consommation (fuite d'information). | Regardé les colonnes et les exemples de lignes dans le terminal : ces colonnes décrivent bien l'usage mesuré, pas une donnée connue à l'avance. | Gardé : 5 caractéristiques (Latitude, Longitude, Nombre de borne, Arrondissement, mois). |
+| Claude | Entraîner une forêt aléatoire sur les vraies données. | Forêt de 200 arbres. Le fichier `modele.joblib` pesait 119 Mo, au-dessus de la limite de 100 Mo de GitHub. | Vérifié la taille avec `dir modeles`. Réduit à 100 arbres avec `min_samples_leaf=3` et compression : 4,7 Mo, scores presque identiques (RMSE 1027, R² 0,73). | Modifié : forêt allégée. |
+| Claude | Mon score est-il honnête, alors que chaque borne apparaît environ 12 fois ? | Comparer la séparation aléatoire à une séparation par borne. | Lancé `validation_groupes.py` : R² 0,73 en aléatoire, 0,40 par borne. | Modifié : le README et la présentation donnent 0,40 comme chiffre honnête pour de nouvelles bornes. |
+| Claude | Mesurer la couverture des tests. | `coverage run -m pytest` (82 %). | Le total comptait les fichiers de tests eux-mêmes. Remesuré avec `--source=src` : 37 %, puis 43 % après de nouveaux tests. | Modifié : on indique 43 % dans le README. |
