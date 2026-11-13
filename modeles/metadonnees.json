@@ -1,0 +1,68 @@
+{
+  "cible": "consommation_kwh",
+  "colonnes": [
+    "Latitude",
+    "Longitude",
+    "Nombre de borne",
+    "Arrondissement",
+    "mois"
+  ],
+  "numeriques": {
+    "Latitude": {
+      "min": 45.4038563,
+      "max": 45.7014883
+    },
+    "Longitude": {
+      "min": -73.9523976,
+      "max": -73.4796011
+    },
+    "Nombre de borne": {
+      "min": 1.0,
+      "max": 8.0
+    }
+  },
+  "categorielles": {
+    "Arrondissement": [
+      "AHU",
+      "ANJ",
+      "CDN",
+      "IBI",
+      "LAC",
+      "LAS",
+      "LSO",
+      "MHM",
+      "MTN",
+      "OUT",
+      "PLA",
+      "PRF",
+      "RDP",
+      "RPP",
+      "STL",
+      "VER",
+      "VIM",
+      "VSE",
+      "VSL"
+    ],
+    "mois": [
+      "août",
+      "avril",
+      "décembre",
+      "février",
+      "janvier",
+      "juillet",
+      "juin",
+      "mai",
+      "mars",
+      "novembre",
+      "octobre",
+      "septembre"
+    ]
+  },
+  "metriques": {
+    "modele": "foret_aleatoire",
+    "rmse": 1027.1440382363628,
+    "mae": 722.9513595928099,
+    "r2": 0.7289786778411216,
+    "rmse_reference": 1973.2293936445044
+  }
+}

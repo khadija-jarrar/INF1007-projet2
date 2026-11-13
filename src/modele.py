@@ -109,7 +109,8 @@ class Modele:
         if self._pipeline is None:
             raise ModeleNonEntraineError("Rien à sauvegarder : modèle non entraîné.")
         os.makedirs(os.path.dirname(chemin) or ".", exist_ok=True)
-        joblib.dump(self._pipeline, chemin)
+        joblib.dump(self._pipeline, chemin, compress=3)
+    
 
     @staticmethod
     def charger(chemin: str = CHEMIN_MODELE) -> "Modele":
@@ -162,7 +163,9 @@ def entrainer_et_sauvegarder(df: pd.DataFrame, cible: str) -> dict:
     candidats = {
         "reference_moyenne": DummyRegressor(strategy="mean"),
         "regression_lineaire": LinearRegression(),
-        "foret_aleatoire": RandomForestRegressor(n_estimators=200, random_state=SEED),
+                "foret_aleatoire": RandomForestRegressor(
+            n_estimators=100, min_samples_leaf=3, random_state=SEED
+        ),
     }
     resultats, modeles = {}, {}
     for nom, estimateur in candidats.items():
