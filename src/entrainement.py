@@ -28,9 +28,11 @@ def convertir_nombre(serie: pd.Series) -> pd.Series:
     return pd.to_numeric(texte, errors="coerce")
 
 
-def charger_donnees_modele(chemin: str = CHEMIN_CSV) -> pd.DataFrame:
+def charger_donnees_modele(chemin: str = CHEMIN_CSV, garder_borne: bool = False) -> pd.DataFrame:
     """Charge le CSV et renvoie un tableau propre : caractéristiques + cible.
 
+    Si garder_borne est vrai, ajoute la colonne « Borne » (identifiant, pour
+    séparer les données par borne ; ce n'est pas une caractéristique).
     Lève DonneeInvalideError si le fichier ou une colonne est absent.
     """
     if not os.path.exists(chemin):
@@ -38,11 +40,12 @@ def charger_donnees_modele(chemin: str = CHEMIN_CSV) -> pd.DataFrame:
     with open(chemin, "r", encoding="utf-8") as f:
         brut = pd.read_csv(f)
 
-    manquantes = [c for c in CARACTERISTIQUES + [COLONNE_KWH] if c not in brut.columns]
+    colonnes = CARACTERISTIQUES + [COLONNE_KWH] + (["Borne"] if garder_borne else [])
+    manquantes = [c for c in colonnes if c not in brut.columns]
     if manquantes:
         raise DonneeInvalideError(f"Colonnes absentes : {manquantes}")
 
-    df = brut[CARACTERISTIQUES + [COLONNE_KWH]].copy()
+    df = brut[colonnes].copy()
     for col in COLONNES_NUMERIQUES:
         df[col] = convertir_nombre(df[col])
     df[CIBLE] = convertir_nombre(df[COLONNE_KWH])
