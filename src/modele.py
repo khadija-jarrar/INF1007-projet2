@@ -188,7 +188,6 @@ def entrainer_et_sauvegarder(df: pd.DataFrame, cible: str) -> dict:
 
 
 if __name__ == "__main__":
-    # À remplacer par la fonction de chargement de src/donnees.py
-    df = pd.read_csv("donnees/donnees_nettoyees.csv")
-    for nom, scores in entrainer_et_sauvegarder(df, "consommation_kwh").items():
-        print(nom, scores)
+    from src.entrainement import main
+
+    main()
