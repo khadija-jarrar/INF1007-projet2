@@ -22,7 +22,7 @@ from src.exceptions import (
     ModeleIntrouvableError,
     ModeleNonEntraineError,
 )
-
+#for nom, estimateur in candidats.items():
 SEED = 42
 DOSSIER_MODELES = "modeles"
 CHEMIN_MODELE = os.path.join(DOSSIER_MODELES, "modele.joblib")
@@ -172,6 +172,8 @@ def entrainer_et_sauvegarder(df: pd.DataFrame, cible: str) -> dict:
         m = Modele(estimateur, cats, nom)
         m.entrainer(X_train, y_train)
         resultats[nom] = m.evaluer(X_test, y_test)
+
+        print(f"{nom} : {resultats[nom]}")
         modeles[nom] = m
 
     meilleur = min(
